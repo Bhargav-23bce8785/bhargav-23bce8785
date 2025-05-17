@@ -1,0 +1,24 @@
+show databases;
+create database vit;
+use vit;
+CREATE TABLE vit_Andhra pradesh (
+    full_name VARCHAR(100),
+    reg_no VARCHAR(20) PRIMARY KEY,
+    school VARCHAR(100),
+    graduation_year INT
+);
+INSERT INTO vit_Andhra pradesh (full_name, reg_no, school, graduation_year) VALUES
+('Varma', '23bce8733', 'School of Computer Science', 2027),
+('prasad', '23bce8753', 'School of Computer Science', 2027),
+('Rakesh', '23bce8706', 'School of Computer Science', 2027),
+('sudheer', '23bce8473', 'School of Computer Science', 2027));
+INSERT INTO vit_Andhra pradesh (full_name, reg_no, school, graduation_year) VALUES
+('siva', '23bce8456', 'School of Computer Science', 2027)
+('josh', '23bce8573', 'School of Computer Science', 2027)
+('Arjun ', '23bce8760', 'School of Civil Engineering', 2027),
+select * from vit_Andhra pradesh;
+alter table vit_Andhra pradeshadd(phone varchar(10));
+desc vit_Andhra pradesh;
+alter table vit_Andhra pradesh drop column phone;
+alter table vit_Andhra pradesh add(s_country varchar(10) default 'India');
+update vit_Andhra pradesh set full_name='V Bhargav' WHERE full_name='Bhargav chandra';
