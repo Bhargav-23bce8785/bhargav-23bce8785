@@ -1,0 +1,107 @@
+public class Tester{
+public static void main (String[] args) (
+
+MongoClient mongoClient = MongoClients. create ("mongodb: //localhost: 27017") ;
+MongoDatabase database = mongoClient.getDatabase ("myDb") ;
+1516171192021212222627282930
+
+MongoCollection<Document> collection = database.getCollection ("sampleCollection") ;
+
+collection.deleteOne (Filters.eg ("First Name", "Mahesh") ) ;
+System. out.println ("Document deleted.") ;
+System.out.println ("Documents*);
+
+FindIterable<Document> documents = collection.find() :
+for
+(Document document : documents) !
+System.out.println (document) ;
+}
+}
+}
+
+Document deleted.
+Documents:
+
+
+
+{FindIterable<Document> allDocuments = collection.find().skip(1).limit(2);remaining documents...}
+
+public class Tester{
+public static void main (String[] args) (
+
+MongoClient mongoClient = MongoClients. create ("mongodb: //localhost: 27017") ;
+MongoDatabase database = mongoClient.getDatabase ("myDb") ;
+1516171192021212222627282930
+
+MongoCollection<Document> collection = database.getCollection ("sampleCollection") ;
+
+collection.deleteOne (Filters.eg ("First Name", "Mahesh") ) ;
+System. out.println ("Document deleted.") ;
+System.out.println ("Documents*);
+
+{FindIterable<Document> allDocuments = collection.find().skip(1).limit(2);
+remaining documents...}
+
+
+for
+(Document document : documents) !
+System.out.println (document) ;
+}
+}
+}
+
+
+{FindIterable<Document> allDocuments = collection.find().skip(1).limit(2);remaining documents...}
+
+public class Tester{
+public static void main (String[] args) (
+
+MongoClient mongoClient = MongoClients. create ("mongodb: //localhost: 27017") ;
+MongoDatabase database = mongoClient.getDatabase ("myDb") ;
+1516171192021212222627282930
+
+MongoCollection<Document> collection = database.getCollection ("sampleCollection") ;
+collection.deleteMany(Filters.eq("item", "Cappuccino"));
+     System.out.println("Document deleted");
+     System.out.println("**Documents deleted**");
+
+for
+(Document document : documents) !
+System.out.println (document) ;
+}
+}
+}
+
+
+
+FindIterable<Document> allDocuments = collection.find().skip(1).limit(2);
+
+int index=0;
+        for (Document doc : selectedDocuments) {
+            if (index % 2 == 0) {
+                System.out.println("Remaining Document: " + doc);
+            }
+            index++;
+        }
+
+public class Tester{
+public static void main (String[] args) (
+
+MongoClient mongoClient = MongoClients. create ("mongodb: //localhost: 27017") ;
+MongoDatabase database = mongoClient.getDatabase ("myDb") ;
+1516171192021212222627282930
+
+MongoCollection<Document> collection = database.getCollection ("sampleCollection") ;
+
+collection.deleteOne (Filters.eg ("First Name", "Mahesh") ) ;
+System. out.println ("Document deleted.") ;
+System.out.println ("Documents*);
+FindIterable<Document> allDocuments = collection.find().skip(1).limit(2);
+
+int index=0;
+        for (Document doc : selectedDocuments) {
+            if (index % 2 == 0) {
+                System.out.println("Remaining Document: " + doc);
+            }
+            index++;
+        }

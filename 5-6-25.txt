@@ -1,0 +1,156 @@
+db.sales.insertMany([
+	{ "_id" : 1, "item" : "Americanos", "price" : 5, "size": "Short", "quantity" : 22, "date" : ISODate("2022-01-15T08:00:00Z") },
+	{ "_id" : 2, "item" : "Cappuccino", "price" : 6, "size": "Short","quantity" : 12, "date" : ISODate("2022-01-16T09:00:00Z") },
+	{ "_id" : 3, "item" : "Lattes", "price" : 15, "size": "Grande","quantity" : 25, "date" : ISODate("2022-01-16T09:05:00Z") },
+	{ "_id" : 4, "item" : "Mochas", "price" : 25,"size": "Tall", "quantity" : 11, "date" : ISODate("2022-02-17T08:00:00Z") },
+	{ "_id" : 5, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 12, "date" : ISODate("2022-02-18T21:06:00Z") },
+	{ "_id" : 6, "item" : "Cappuccino", "price" : 7, "size": "Tall","quantity" : 20, "date" : ISODate("2022-02-20T10:07:00Z") },
+	{ "_id" : 7, "item" : "Lattes", "price" : 25,"size": "Tall", "quantity" : 30, "date" : ISODate("2022-02-21T10:08:00Z") },
+	{ "_id" : 8, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 21, "date" : ISODate("2022-02-22T14:09:00Z") },
+	{ "_id" : 9, "item" : "Cappuccino", "price" : 10, "size": "Grande","quantity" : 17, "date" : ISODate("2022-02-23T14:09:00Z") },
+	{ "_id" : 10, "item" : "Americanos", "price" : 8, "size": "Tall","quantity" : 15, "date" : ISODate("2022-02-25T14:09:00Z")}
+]);
+
+db.sales2.aggregate([{$group:{_id:"$item",maxquantity:{$max:"$quantity"}}}])
+db.sales.aggregate([
+  {
+    $group: {
+      _id: null, 
+      maxQuantity: { $max: "$quantity" }
+    }
+  }
+])
+
+{
+  _id: null,
+  maxQuantity: 30
+}
+db.sales.aggregate([{$group:{_id:'$item', maxpara:{$max:'$quantity'}}}])
+{
+  _id: 'Americanos',
+  maxpara: 22
+}
+{
+  _id: 'Mochas',
+  maxpara: 11
+}
+{
+  _id: 'Cappuccino',
+  maxpara: 20
+}
+{
+  _id: 'Lattes',
+  maxpara: 30
+}
+
+
+b.sales.aggregate([
+    {
+        $addFields: {
+            totalValue: { $multiply: ["$price", "$quantity"] }
+        }
+    },
+    {
+        $group: {
+            _id: null,
+            maxTotalValue: { $max: "$totalValue" }
+        }
+    }
+]
+{
+  _id: null,
+  maxTotalValue: 750
+}
+db.sales.aggregate([{$group:{_id:"$item",max_pr:{$max:{$multiply:["$quantity","$price"]}}}},{$sort:{max_qt:-1}},{$limit:1}]);
+{
+  _id: 'Lattes',
+  max_pr: 750
+}
+db.sales.aggregate([{$group:{_id:"$item",max_qt:{$max:"$quantity"}}},{$sort:{max_qt:-1}},{$limit:2}]).skip(1);
+{
+  _id: 'Americanos',
+  max_qt: 22
+}
+db.sales.aggregate([{$group:{_id:"$item",max_qt:{$sum:"$quantity"}}},{$sort:{max_qt:-1}},{$limit:2}]).skip(1); 
+{
+  _id: 'Lattes',
+  max_qt: 55
+}
+db.sales.aggregate([
+  {
+    $addFields: {
+      totalSale: { $multiply: ["$price", "$quantity"] }
+    }
+  },
+  {
+    $sort: { item: 1, totalSale: -1 }
+  },
+  {
+    $group: {
+      _id: "$item",
+      salesList: { $push: "$totalSale" }
+    }
+  },
+  {
+    $project: {
+      secondMaxSale: { $arrayElemAt: ["$salesList", 1] }
+    }
+  }
+]);
+{
+  _id: 'Americanos',
+  secondMaxSale: 120
+}
+{
+  _id: 'Cappuccino',
+  secondMaxSale: 140
+}
+
+
+db.sales.getIndexes()
+
+[ { v: 2, key: { _id: 1 }, name: '_id_' } ]
+db.users.insertMany([
+   { email:  "john@test.com", name: "john"},
+   { email:  "jane@test.com", name: "jane"},
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6841a160096f354961e229e0'),
+    '1': ObjectId('6841a160096f354961e229e1')
+  }
+}
+db.users.find()
+{
+  _id: ObjectId('6841a160096f354961e229e0'),
+  email: 'john@test.com',
+  name: 'john'
+}
+{
+  _id: ObjectId('6841a160096f354961e229e1'),
+  email: 'jane@test.com',
+  name: 'jane'
+}
+db.users.insertMany([
+   { email:  "john@test.com", name: "john"},
+   { email:  "jane@test.com", name: "jane"},
+   { email:  "jane@test.com", name: "janey"},
+]);
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6841a2ba096f354961e229e2'),
+    '1': ObjectId('6841a2ba096f354961e229e3'),
+    '2': ObjectId('6841a2ba096f354961e229e4')
+  }
+}
+db. locations.insertOne({
+   address: "Downtown San Jose, CA, USA",
+   Lat: 37.335480, 
+   long: -121.893028
+})
+ acknowledged: true,
+  insertedId: ObjectId('6841a46a096f354961e229e5')
+}

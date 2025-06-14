@@ -1,0 +1,121 @@
+db.products.insertMany([
+    { "_id" : 1, "name" : "xPhone", "price" : 799, "releaseDate": ISODate("2011-05-14"), "spec" : { "ram" : 4, "screen" : 6.5, "cpu" : 2.66 },"color":["white","black"],"storage":[64,128,256]},
+    { "_id" : 2, "name" : "xTablet", "price" : 899, "releaseDate": ISODate("2011-09-01") , "spec" : { "ram" : 16, "screen" : 9.5, "cpu" : 3.66 },"color":["white","black","purple"],"storage":[128,256,512]},
+    { "_id" : 3, "name" : "SmartTablet", "price" : 899, "releaseDate": ISODate("2015-01-14"), "spec" : { "ram" : 12, "screen" : 9.7, "cpu" : 3.66 },"color":["blue"],"storage":[16,64,128]},
+    { "_id" : 4, "name" : "SmartPad", "price" : 699, "releaseDate": ISODate("2020-05-14"),"spec" : { "ram" : 8, "screen" : 9.7, "cpu" : 1.66 },"color":["white","orange","gold","gray"],"storage":[128,256,1024]},
+    { "_id" : 5, "name" : "SmartPhone", "price" : 599,"releaseDate": ISODate("2022-09-14"), "spec" : { "ram" : 4, "screen" : 9.7, "cpu" : 1.66 },"color":["white","orange","gold","gray"],"storage":[128,256]}
+ ])
+db.products.deleteOne({ _id :1 })
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.products.deleteOne({
+ 'spec.ram': {$gt: 8}
+})
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.products.deleteOne({price:{$lt:699}})
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+[
+db.sales.insertMany([
+	{ "_id" : 1, "item" : "Americanos", "price" : 5, "size": "Short", "quantity" : 22, "date" : ISODate("2022-01-15T08:00:00Z") },
+	{ "_id" : 2, "item" : "Cappuccino", "price" : 6, "size": "Short","quantity" : 12, "date" : ISODate("2022-01-16T09:00:00Z") },
+	{ "_id" : 3, "item" : "Lattes", "price" : 15, "size": "Grande","quantity" : 25, "date" : ISODate("2022-01-16T09:05:00Z") },
+	{ "_id" : 4, "item" : "Mochas", "price" : 25,"size": "Tall", "quantity" : 11, "date" : ISODate("2022-02-17T08:00:00Z") },
+	{ "_id" : 5, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 12, "date" : ISODate("2022-02-18T21:06:00Z") },
+	{ "_id" : 6, "item" : "Cappuccino", "price" : 7, "size": "Tall","quantity" : 20, "date" : ISODate("2022-02-20T10:07:00Z") },
+	{ "_id" : 7, "item" : "Lattes", "price" : 25,"size": "Tall", "quantity" : 30, "date" : ISODate("2022-02-21T10:08:00Z") },
+	{ "_id" : 8, "item" : "Americanos", "price" : 10, "size": "Grande","quantity" : 21, "date" : ISODate("2022-02-22T14:09:00Z") },
+	{ "_id" : 9, "item" : "Cappuccino", "price" : 10, "size": "Grande","quantity" : 17, "date" : ISODate("2022-02-23T14:09:00Z") },
+	{ "_id" : 10, "item" : "Americanos", "price" : 8, "size": "Tall","quantity" : 15, "date" : ISODate("2022-02-25T14:09:00Z")}
+]);
+db.sales.aggregate([
+   {
+     $group: {
+       _id: '$iten',
+       averageQty: { $avg: '$quantity' },
+       },
+     },
+  ]);
+{
+  _id: null,
+  averageQty: 18.5
+}
+db.sales.aggregate([
+  { $match: { quantity: { $gt: 8 } } },
+  {
+    $group: {
+      _id: "$item",
+      avgPrice: { $avg: "$price" }
+    }
+  }
+])
+{
+  _id: 'Cappuccino',
+  avgPrice: 7.666666666666667
+}
+{
+  _id: 'Mochas',
+  avgPrice: 25
+}
+{
+  _id: 'Lattes',
+  avgPrice: 20
+}
+db.sales.aggregate([
+  {
+    $group: {
+      _id: "$item",
+      Average: { $avg: { $multiply: ["$price", "$quantity"] } }
+    }
+  }
+])
+{
+  _id: 'Lattes',
+  Average: 562.5
+}
+{
+  _id: 'Americanos',
+  Average: 140
+}
+{
+  _id: 'Mochas',
+  Average: 275
+}
+{
+  _id: 'Cappuccino',
+  Average: 127.33333333333333
+}
+db.sales.aggregate([{ $group: { _id: "$item", avgRevenue: { $avg: { $multiply: ["$price", "$quantity"] } } } }, { $match: { avgRevenue: { $gt: 140 } } }, { $sort: { avgRevenue: -1 } }])
+{
+  _id: 'Lattes',
+  avgRevenue: 562.5
+}
+{
+  _id: 'Mochas',
+  avgRevenue: 275
+}
+
+db.sales.aggregate([{$group:{_id:"$item",sumItems:{$sum:"$quantity"}}}])
+{
+  _id: 'Lattes',
+  sumItems: 55
+}
+{
+  _id: 'Americanos',
+  sumItems: 70
+}
+{
+  _id: 'Mochas',
+  sumItems: 11
+}
+{
+  _id: 'Cappuccino',
+  sumItems: 49
+}
